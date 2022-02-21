@@ -46,6 +46,7 @@ import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
 import { Link } from '@mui/material';
 import './DrawerMenu.css';
+import { Typography } from '@material-ui/core';
 
 
 
@@ -113,43 +114,43 @@ export default function DrawerMenu() {
     }
   
   };
-  const [sale, setSale] = React.useState(true);
+  const [sale, setSale] = React.useState(false);
 
   const handleClickSale = () => {
     setSale(!sale);
   };
 
-  const [delivery, setDelivery] = React.useState(true);
+  const [delivery, setDelivery] = React.useState(false);
 
   const handleClickDelivery = () => {
     setDelivery(!delivery);
   };
 
-  const [finance, setFinance] = React.useState(true);
+  const [finance, setFinance] = React.useState(false);
 
   const handleClickFinance = () => {
     setFinance(!finance);
   };
 
-  const [analytic, setAnalytic] = React.useState(true);
+  const [analytic, setAnalytic] = React.useState(false);
 
   const handleClickAnalytic = () => {
     setAnalytic(!analytic);
   };
 
-  const [service, setService] = React.useState(true);
+  const [service, setService] = React.useState(false);
 
   const handleClickService = () => {
     setService(!service);
   };
 
-  const [associate, setAssociate] = React.useState(true);
+  const [associate, setAssociate] = React.useState(false);
 
   const handleClickAssociate = () => {
     setAssociate(!associate);
   };
 
-  const [customer, setCustomer] = React.useState(true);
+  const [customer, setCustomer] = React.useState(false);
 
   const handleClickCustomer = () => {
     setCustomer(!customer);
@@ -521,6 +522,10 @@ export default function DrawerMenu() {
                  
               </Link>
           </div>
+          <Typography variant="h5" style={{color: '#3E86E4', marginTop:'14px'}} noWrap component="div"
+         >
+           Dashboard
+            </Typography>
       
        
       </Main>
