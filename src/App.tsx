@@ -3,8 +3,9 @@ import Navbar from './Navbar';
 import DrawerMenu from './DrawerMenu';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Accounts from './AccountMenu';
+
 import DashboardMenu from './DashboardMenu';
+import AccountMenu from './AccountMenu';
 
 
 
@@ -26,7 +27,7 @@ function App() {
        <Route path="/customers/accounts">
        <Navbar/> 
        <DrawerMenu/>
-       <Accounts/>
+       <AccountMenu/>
        </Route>
        
   
