@@ -47,7 +47,7 @@ import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
 import PatternOutlinedIcon from '@mui/icons-material/PatternOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import { Link } from '@mui/material';
-import './DrawerMenu.css';
+import './DashboardMenu.css';
 import { Typography } from '@material-ui/core';
 import CardMenu from './CardMenu';
 import PaperMenu from './PaperMenu';
@@ -109,7 +109,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function DrawerMenu() {
+export default function DashboardMenu() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -542,8 +542,28 @@ export default function DrawerMenu() {
                 <MenuIcon />
               </IconButton>
           
+               <Link href="#" underline="hover"
+                sx={{
+                  paddingTop:'15px'
+                }}>
+                  {'DASHBOARD'}
+                 
+              </Link>
           </div>
-          
+          <Typography variant="h5" style={{color: '#3E86E4', marginTop:'14px'}} noWrap component="div"
+         >
+           Dashboard
+            </Typography>
+          <div className="card-content">
+              <CardMenu/> 
+          </div>
+          <div className="paper-content">
+            <PaperMenu/>
+          </div>
+
+          <div className="table-content">
+            <TableMenu/>
+          </div>
    
       </Main>
       
