@@ -44,9 +44,16 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
+import PatternOutlinedIcon from '@mui/icons-material/PatternOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import { Link } from '@mui/material';
 import './DrawerMenu.css';
 import { Typography } from '@material-ui/core';
+import CardMenu from './CardMenu';
+import PaperMenu from './PaperMenu';
+import TableMenu from './TableMenu';
+
+
 
 
 
@@ -191,7 +198,7 @@ export default function DrawerMenu() {
           {['Dashboard', 'Profile'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <DashboardOutlinedIcon/> : < PermIdentityOutlinedIcon  />}
+                {index % 2 === 0 ? <DashboardOutlinedIcon/> : < ManageAccountsOutlinedIcon  />}
               </ListItemIcon>
               <ListItemText secondary={text} />
             </ListItem>
@@ -321,7 +328,7 @@ export default function DrawerMenu() {
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }}>
               <ListItemIcon>
-                <MonetizationOnOutlinedIcon/>
+                <PatternOutlinedIcon/>
               </ListItemIcon>
               <ListItemText secondary="Projections" />
           </ListItemButton>
@@ -516,7 +523,7 @@ export default function DrawerMenu() {
           
                <Link href="#" underline="hover"
                 sx={{
-                  paddingTop:'7px'
+                  paddingTop:'15px'
                 }}>
                   {'DASHBOARD'}
                  
@@ -526,8 +533,17 @@ export default function DrawerMenu() {
          >
            Dashboard
             </Typography>
-      
-       
+          <div className="card-content">
+              <CardMenu/> 
+          </div>
+          <div className="paper-content">
+            <PaperMenu/>
+          </div>
+
+          <div className="table-content">
+            <TableMenu/>
+          </div>
+   
       </Main>
       
     </Box>
