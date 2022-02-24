@@ -1,12 +1,12 @@
 import React from 'react';
-import Navbar from './Navbar';
-import DrawerMenu from './DrawerMenu';
+import Navbar from './Components/Navbar/Navbar';
+import DrawerMenu from './Components/SideNavigation/DrawerMenu';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import DashboardMenu from './DashboardMenu';
-import AccountMenu from './AccountMenu';
-import Demo from './AccountMenu';
+import DashboardMenu from './Components/Dashboard/DashboardMenu';
+import AccountMenu from '../AccountMenu';
+import Demo from '../AccountMenu';
 
 
 

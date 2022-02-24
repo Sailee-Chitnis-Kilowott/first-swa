@@ -49,9 +49,9 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import { Link } from '@mui/material';
 import './DrawerMenu.css';
 import { Typography } from '@material-ui/core';
-import CardMenu from './CardMenu';
-import PaperMenu from './PaperMenu';
-import TableMenu from './TableMenu';
+import CardMenu from '../Dashboard/CardMenu';
+import PaperMenu from '../Dashboard/PaperMenu';
+import TableMenu from '../Dashboard/TableMenu';
 import { Navbar, Nav } from 'react-bootstrap';
 
 
