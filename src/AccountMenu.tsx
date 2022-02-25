@@ -7,12 +7,12 @@
   import TableHead from '@mui/material/TableHead';
   import TableRow from '@mui/material/TableRow';
   import Paper from '@mui/material/Paper';
-  import {Col, Row } from 'reactstrap';
+  import {Col,Row } from 'reactstrap';
   import Button from '@mui/material/Button';
   import OpenInFullIcon from '@mui/icons-material/OpenInFull';
   import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
   import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-  import { Alert, Checkbox, FormControl, Tab, Tabs, TextField, Typography } from '@mui/material';
+  import { Alert, Checkbox, FormControl, Input, InputLabel, Tab, Tabs, TextField, Typography } from '@mui/material';
   import SearchIcon from '@mui/icons-material/Search';
   import { styled,alpha } from '@mui/material/styles';
   import InputBase from '@mui/material/InputBase';
@@ -31,6 +31,9 @@
   import { TransitionProps } from '@mui/material/transitions';
   import { Box } from '@material-ui/core';
 
+import { NavLink } from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
+import { getUsersById } from './AxiosApi/api';
 
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -140,8 +143,32 @@
     };
   }
 
+// industry type select
+const industryType = [
+  {
+    value: 'fin',
+    label: 'Fin Tech US',
+  },
+  {
+    value: 'ret',
+    label: 'Retail India',
+  },
+  {
+    value: 'se',
+    label: 'Travel & Hospitality SE Asia',
+  },
+  {
+    value: 'med',
+    label: 'Media & OTT UK',
+  },
+  {
+    value: 'tra',
+    label: 'Travel & Hospitality Europe (Norway)',
+  },
+  
+];
 
-  export default function Demo() {
+  export default function AccountMenu() {
     // edit function
     const [edit, setEdit] = React.useState(false);
   const handleEditOpen = () => {
@@ -151,11 +178,30 @@
   const handleEditClose = () => {
     setEdit(false);
   };
-// tab
+
+  // edit backened
+  const [person,setPerson] = React.useState([])
+  const getUserName=async()=>{
+    const response = await getUsersById();    
+    console.log(response.data);    
+    setUsers(response.data); 
+  }
+
+
+
+
+  // tab
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  //industry select
+  const[industry, setIndustry] = React.useState('tra');
+
+  const handleIndustryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIndustry(event.target.value);
   };
 
 
@@ -248,7 +294,18 @@
                 <TableCell style={{width:140}} align="left">{row.currency}</TableCell>
                 <TableCell style={{width:140}} align="left">{row.contractRenewal}</TableCell>
                 <TableCell style={{width:140}} align="left">{row.parent}</TableCell>
-                <TableCell style={{width:140}} align="left"><OpenInFullIcon style={{fontSize:20,display:"block"}}/><EditOutlinedIcon onClick={handleEditOpen} style={{fontSize:20,display:"block",marginTop:5,marginBottom:5}}/><DeleteOutlineOutlinedIcon style={{fontSize:20,display:"block"}}/></TableCell>
+                <TableCell style={{width:140}} align="left"><OpenInFullIcon style={{fontSize:20,display:"block"}}/>
+                <EditOutlinedIcon onClick={handleEditOpen} style={{fontSize:20,display:"block",marginTop:5,marginBottom:5}}/>
+                <DeleteOutlineOutlinedIcon style={{fontSize:20,display:"block"}}/>
+                </TableCell>
+
+              
+
+                {/* <TableCell style={{width:140}} align="left"> */}
+                {/* <Nav.Link href="/csexpand"><OpenInFullIcon style={{fontSize:20,display:"block"}}/></Nav.Link> */}
+                {/* <Nav.Link href="/csedit"><EditOutlinedIcon style={{fontSize:20,display:"block",marginTop:5,marginBottom:5}}/></Nav.Link> */}
+                
+                {/* <Nav.Link href="/csdelete"><DeleteOutlineOutlinedIcon style={{fontSize:20,display:"block"}}/></Nav.Link></TableCell> */}
               </TableRow>
             ))}
           </TableBody>
@@ -283,7 +340,7 @@
         <Alert style={{marginTop:20}} severity="warning">Editing account for Kilowott Child Company</Alert>
        
        
-        <Paper elevation={4} style={{height:520,width:'97%',marginLeft:20,paddingRight:10}} >
+        <Paper elevation={4} style={{height:520,width:'97%',marginLeft:20,marginTop:20}} >
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                 <Tab label="general" {...a11yProps(0)} />
                 <Tab label="contract" {...a11yProps(1)} />
@@ -291,78 +348,127 @@
               </Tabs>
  
           
-          
-          <Paper elevation={4} style={{height:430,width:'98%',marginLeft:20,marginTop:20}}>
-            <TabPanel value={value} index={0}>
-          
-        
-              <TextField style={{display:"block"}}
-              disabled
-          label="Account Name"
-          id="standard-size-normal"
-          defaultValue="Normal"
-          variant="standard"
-        />
-     
-   
-          <TextField style={{display:"block"}}
-          label="Legal Name"
-          id="standard-size-normal"
-          defaultValue="Normal"
-          variant="standard"
-        />
-  
-          <TextField style={{display:"block"}}
-          label="Business Name"
-          id="standard-size-normal"
-          defaultValue="Normal"
-          variant="standard"
-        />
-          <TextField style={{display:"block"}}
-          label="Country"
-          id="standard-size-normal"
-          defaultValue="Normal"
-          variant="standard"
-        />
-          <TextField style={{display:"block"}}
-          label="Business Type"
-          id="standard-size-normal"
-          defaultValue="Normal"
-          variant="standard"
-        />
-          <TextField style={{display:"block"}}
-          label="Industry Type"
-          id="standard-size-normal"
-          defaultValue="Normal"
-          variant="standard"
-        />
-          <TextField style={{display:"block"}}
-          label="Year of Association"
-          id="standard-size-normal"
-          defaultValue="Normal"
-          variant="standard"
-          type="date"
-        />
-     <Button variant="contained" style={{marginTop:20}}>UPDATE ACCOUNT</Button>
+           
+         
+             <TabPanel value={value} index={0}>
+            <Paper elevation={4} style={{height:430,width:'100%',paddingLeft:20,paddingTop:20,paddingRight:20}}> 
+              {/* general tab */}
 
-      </TabPanel>
-    
-      </Paper>
-      
-      </Paper>
-            
-            <TabPanel value={value} index={1}>
-              {/* Item Two */}
-            </TabPanel>
+                 <FormControl disabled fullWidth  variant="standard">
+                  <InputLabel>Account Name</InputLabel>
+                  <Input value="Kilowott Child Company Again"/>
+                </FormControl>
+               
+               <FormControl fullWidth variant="standard">
+                  <InputLabel style={{marginTop:4}}>Legal Name</InputLabel>
+                  <Input value="Kilowott Agency"/>
+                </FormControl>
+               
+                <FormControl fullWidth  variant="standard">
+                  <InputLabel  style={{marginTop:4}}>Business Name</InputLabel>
+                  <Input value="Kilowott Agency Pvt. Ltd."/>
+                </FormControl>
+               
+                <FormControl fullWidth  variant="standard">
+                  <InputLabel style={{marginTop:4}}>Country</InputLabel>
+                  <Input value="Norway"/>
+                </FormControl>
+                
+                <FormControl fullWidth variant="standard">
+                  <InputLabel style={{marginTop:4}}>Business Type</InputLabel>
+                  <Input value="Website Design"/>
+                </FormControl>
+                
+                <TextField fullWidth variant="standard" style={{marginTop:4}}
+               
+                select
+                  label="Industry Type"
+                  value={industry}
+                  onChange={handleIndustryChange}
+                  SelectProps={{
+                    native: true,
+                  }}
+             >
+                  {industryType.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </TextField>
+
+
+                <FormControl fullWidth variant="standard">
+                  <InputLabel style={{marginTop:4}}>Year of Association</InputLabel>
+                  <Input  value="31/01/2022"/>
+                </FormControl>
+              <Button variant="contained" style={{marginTop:20}}>UPDATE ACCOUNT</Button>
+              </Paper>
+      </TabPanel> 
+ 
+ 
+ {/* contract tab */}
+                 <TabPanel value={value} index={1}>
+                <Paper elevation={4} style={{height:430,width:'100%',paddingLeft:20,paddingTop:20,paddingRight:20}}>
+                      <FormControl disabled fullWidth  variant="standard">
+                            <InputLabel>Account Name</InputLabel>
+                            <Input value="Kilowott Child Company Again"/>
+                          </FormControl>
+                        
+                        <FormControl fullWidth variant="standard">
+                            <InputLabel style={{marginTop:4}}>Legal Name</InputLabel>
+                            <Input value="Kilowott Agency"/>
+                          </FormControl>
+                        
+                          <FormControl fullWidth  variant="standard">
+                            <InputLabel  style={{marginTop:4}}>Business Name</InputLabel>
+                            <Input value="Kilowott Agency Pvt. Ltd."/>
+                          </FormControl>
+                        
+                          <FormControl fullWidth  variant="standard">
+                            <InputLabel style={{marginTop:4}}>Country</InputLabel>
+                            <Input value="Norway"/>
+                          </FormControl>
+                          
+                          <FormControl fullWidth variant="standard">
+                            <InputLabel style={{marginTop:4}}>Business Type</InputLabel>
+                            <Input value="Website Design"/>
+                          </FormControl>
+                          </Paper>
+                      </TabPanel> 
+
+                       {/* pament tab */}
             <TabPanel value={value} index={2}>
-              {/* Item Three */}
+            <FormControl disabled fullWidth  variant="standard">
+                  <InputLabel>Account Name</InputLabel>
+                  <Input value="Kilowott Child Company Again"/>
+                </FormControl>
+               
+               <FormControl fullWidth variant="standard">
+                  <InputLabel style={{marginTop:4}}>Legal Name</InputLabel>
+                  <Input value="Kilowott Agency"/>
+                </FormControl>
+               
+                <FormControl fullWidth  variant="standard">
+                  <InputLabel  style={{marginTop:4}}>Business Name</InputLabel>
+                  <Input value="Kilowott Agency Pvt. Ltd."/>
+                </FormControl>
+               
+                <FormControl fullWidth  variant="standard">
+                  <InputLabel style={{marginTop:4}}>Country</InputLabel>
+                  <Input value="Norway"/>
+                </FormControl>
+                
+                <FormControl fullWidth variant="standard">
+                  <InputLabel style={{marginTop:4}}>Business Type</InputLabel>
+                  <Input value="Website Design"/>
+                </FormControl>
+           
             </TabPanel>
-          
-        
-        
-        
-      
-        </Dialog>
+    
+     
+</Paper>
+
+</Dialog> 
 
         </div>
     

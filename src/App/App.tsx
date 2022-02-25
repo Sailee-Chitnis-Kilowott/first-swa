@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import DashboardMenu from './Components/Dashboard/DashboardMenu';
 import AccountMenu from '../AccountMenu';
 import Demo from '../AccountMenu';
+// import EditCustomerAccount from '../EditCustomerAccount';
 
 
 
@@ -31,11 +32,11 @@ function App() {
        <AccountMenu/>
        </Route>
 
-     
-       <Route>
-         
+{/*      
+       <Route path="/csedit">
+<EditCustomerAccount/>
        </Route>
-  
+   */}
     </div>
       </Switch>
        
