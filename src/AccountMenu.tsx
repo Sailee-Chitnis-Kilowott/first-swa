@@ -174,15 +174,6 @@ const industryType = [
     setEdit(false);
   };
 
-  // edit backened
-  // const [person,setPerson] = React.useState([])
-  // const getUserName=async()=>{
-  //   const response = await getUsersById();    
-  //   console.log(response.data);    
-  //   setUsers(response.data); 
-  // }
-
-
 
 
   // tab
@@ -274,12 +265,7 @@ const industryType = [
               <TableRow key={row.name}>
                   <TableCell padding="checkbox">
                           <Checkbox
-                            color="primary"
-                            // checked={isItemSelected}
-                            // inputProps={{
-                            //   'aria-labelledby': labelId,
-                            // }}
-                          />
+                            color="primary"/>
                         </TableCell>
                 <TableCell style={{width:140}} component="th" scope="row">
                   {row.name}

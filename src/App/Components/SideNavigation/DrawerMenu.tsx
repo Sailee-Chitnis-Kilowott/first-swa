@@ -171,7 +171,6 @@ export default function DrawerMenu() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
         <Drawer
-      
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -200,7 +199,7 @@ export default function DrawerMenu() {
               <ListItemIcon>
               <DashboardOutlinedIcon/> 
               </ListItemIcon>
-              {/* <ListItemText secondary="Dashboard"/> */}
+            
               <Nav.Link style={{color:"#737272",fontSize:15}} href="/dashboard">Dashboard</Nav.Link>
              
           </ListItem>
@@ -209,19 +208,11 @@ export default function DrawerMenu() {
               <ListItemIcon>
               <ManageAccountsOutlinedIcon/>
               </ListItemIcon>
-              {/* <ListItemText secondary="Profile"/> */}
               <Nav.Link style={{color:"#737272",fontSize:15}} href="/profile">Profile</Nav.Link>
              
           </ListItem>
 
-          {/* {['Dashboard', 'Profile'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <DashboardOutlinedIcon/> : < ManageAccountsOutlinedIcon  />}
-              </ListItemIcon>
-              <ListItemText secondary={text} />
-            </ListItem>
-          ))} */}
+        
         </List>
         
       
@@ -332,7 +323,7 @@ export default function DrawerMenu() {
     </List>
     </Collapse>
 
-
+   {/* Analytics */}
 
           <ListItemButton onClick={handleClickAnalytic}>
             <ListItemIcon>

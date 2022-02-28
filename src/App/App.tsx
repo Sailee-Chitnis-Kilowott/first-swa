@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import DashboardMenu from './Components/Dashboard/DashboardMenu';
 import AccountMenu from '../AccountMenu';
-import Demo from '../AccountMenu';
+import Demo from '../Demo';
+import Demo1 from '../Demo1';
 // import EditCustomerAccount from '../EditCustomerAccount';
 
 
@@ -30,6 +31,12 @@ function App() {
        <Navbar/> 
        <DrawerMenu/>
        <AccountMenu/>
+       </Route>
+
+       <Route path="/sailee">
+         <Navbar/>
+
+       <Demo/>
        </Route>
 
 {/*      
