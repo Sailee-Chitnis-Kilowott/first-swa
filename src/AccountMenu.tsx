@@ -1,205 +1,369 @@
-  import * as React from 'react';
+import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { Alert, Button, Checkbox, Dialog, FormControl, Input, InputLabel, Tab, Tabs, TextField, Typography } from '@mui/material';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import {Row, Col } from 'react-bootstrap';
+import SearchIcon from '@mui/icons-material/Search';
+import { styled,alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import AddIcon from '@material-ui/icons/Add';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import { blue } from '@mui/material/colors';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
+import DrawerMenu from './App/Components/SideNavigation/DrawerMenu';
 
-  import Table from '@mui/material/Table';
-  import TableBody from '@mui/material/TableBody';
-  import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-  import TableContainer from '@mui/material/TableContainer';
-  import TableHead from '@mui/material/TableHead';
-  import TableRow from '@mui/material/TableRow';
-  import Paper from '@mui/material/Paper';
-  import {Col,Row } from 'reactstrap';
-  import Button from '@mui/material/Button';
-  import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-  import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-  import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-  import { Alert, Checkbox, FormControl, Input, InputLabel, Tab, Tabs, TextField, Typography } from '@mui/material';
-  import SearchIcon from '@mui/icons-material/Search';
-  import { styled,alpha } from '@mui/material/styles';
-  import InputBase from '@mui/material/InputBase';
-  import AddIcon from '@material-ui/icons/Add';
-  import AddBoxIcon from '@material-ui/icons/AddBox';
-  import { blue } from '@mui/material/colors';
-  import Dialog from '@mui/material/Dialog';
-  import IconButton from '@mui/material/IconButton';
-  import CloseIcon from '@mui/icons-material/Close';
-  import Slide from '@mui/material/Slide';
-  import { TransitionProps } from '@mui/material/transitions';
-  import { Box } from '@material-ui/core';
-  // import AdapterDateFns from '@mui/lab/AdapterDateFns';
-  // import LocalizationProvider from '@mui/lab/LocalizationProvider';
-  // import DatePicker from '@mui/lab/DatePicker';
-// import { getUsersById } from './AxiosApi/api';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 
-  const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
+
+const drawerWidth = 240;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
     marginLeft: 0,
+  }),
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
+
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  }));
-
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-          width: '20ch',
-        },
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
       },
     },
-  }));
+  },
+}));
+
+function createData(
+  name: string,
+  legalName: string,
+  businessName: string,
+  businessType: string,
+  industryType: string,
+  currency:string,
+  contractRenewal:string,
+  parent:string,
+
+) {
+  return { name,legalName,businessName,businessType,industryType,currency,contractRenewal,parent}
+}
+
+const rows = [
+  createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Website Design','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
+  createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Website Design','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
+  createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Digital Marketing','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
+
+];
 
 
-  function createData(
-    name: string,
-    legalName: string,
-    businessName: string,
-    businessType: string,
-    industryType: string,
-    currency:string,
-    contractRenewal:string,
-    parent:string,
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-  ) {
-    return { name,legalName,businessName,businessType,industryType,currency,contractRenewal,parent}
-  }
+// tab function
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
 
-  const rows = [
-    createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Website Design','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
-    createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Website Design','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
-    createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Digital Marketing','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
 
-  ];
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
-
-  const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-      children: React.ReactElement;
-    },
-    ref: React.Ref<unknown>,
-  ) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
-
-  // tab function
-  interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-  }
-  
-  function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  }
-  
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 // industry type select
 const industryType = [
-  {
-    value: 'fin',
-    label: 'Fin Tech US',
-  },
-  {
-    value: 'ret',
-    label: 'Retail India',
-  },
-  {
-    value: 'se',
-    label: 'Travel & Hospitality SE Asia',
-  },
-  {
-    value: 'med',
-    label: 'Media & OTT UK',
-  },
-  {
-    value: 'tra',
-    label: 'Travel & Hospitality Europe (Norway)',
-  },
-  
+{
+  value: 'fin',
+  label: 'Fin Tech US',
+},
+{
+  value: 'ret',
+  label: 'Retail India',
+},
+{
+  value: 'se',
+  label: 'Travel & Hospitality SE Asia',
+},
+{
+  value: 'med',
+  label: 'Media & OTT UK',
+},
+{
+  value: 'tra',
+  label: 'Travel & Hospitality Europe (Norway)',
+},
+
 ];
 
-  export default function AccountMenu() {
-    // edit function
-    const [edit, setEdit] = React.useState(false);
-  const handleEditOpen = () => {
-    setEdit(true);
-  };
-
-  const handleEditClose = () => {
-    setEdit(false);
-  };
+//snackbar
+export interface State extends SnackbarOrigin {
+  open: boolean;
+}
 
 
+export default function AccountMenu() {
+  const theme = useTheme();
+  // const [drawer, setDrawer] = React.useState(false);
 
-  // tab
-  const [value, setValue] = React.useState(0);
+  // const handleDrawerOpen = () => {
+  //   if(open==true){
+  //     setDrawer(false);
+  //   }
+  //   else{
+  //     setDrawer(true);
+  //   }
+  
+  // };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+// edit function
+const [edit, setEdit] = React.useState(false);
+const handleEditOpen = () => {
+  setEdit(true);
+};
 
-  //industry select
-  const[industry, setIndustry] = React.useState('');
+const handleEditClose = () => {
+  setEdit(false);
+};
 
-  const handleIndustryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIndustry(event.target.value);
-  };
+const [sale, setSale] = React.useState(false);
 
-  //date
-  const [field, setField] = React.useState<Date | null>(null);
+const handleClickSale = () => {
+  setSale(!sale);
+};
 
-    return (
-        <div style={{display:"flex",justifyContent:"right"}}>
+const [delivery, setDelivery] = React.useState(false);
+
+const handleClickDelivery = () => {
+  setDelivery(!delivery);
+};
+
+const [finance, setFinance] = React.useState(false);
+
+const handleClickFinance = () => {
+  setFinance(!finance);
+};
+
+const [analytic, setAnalytic] = React.useState(false);
+
+const handleClickAnalytic = () => {
+  setAnalytic(!analytic);
+};
+
+const [service, setService] = React.useState(false);
+
+const handleClickService = () => {
+  setService(!service);
+};
+
+const [associate, setAssociate] = React.useState(false);
+
+const handleClickAssociate = () => {
+  setAssociate(!associate);
+};
+
+const [customer, setCustomer] = React.useState(false);
+
+const handleClickCustomer = () => {
+  setCustomer(!customer);
+};
+
+// tab
+const [value, setValue] = React.useState(0);
+
+const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  setValue(newValue);
+};
+
+//industry select
+const[industry, setIndustry] = React.useState('');
+
+const handleIndustryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setIndustry(event.target.value);
+};
+
+const UpdateUser = async () =>{
+  // handleEditClose();
+  // handleClick({
+  //   vertical: 'top',
+  //   horizontal: 'right',
+  // });
+  
+
+}
+
+//snackbar
+const [state, setState] = React.useState<State>({
+  open: false,
+  vertical: 'top',
+  horizontal: 'center',
+});
+const { vertical, horizontal, open } = state;
+
+const handleClick = (newState: SnackbarOrigin) => () => {
+  setState({ open: true, ...newState });
+  handleEditClose();
+};
+
+const handleClose = () => {
+  setState({ ...state, open: false });
+};
+
+const buttons = (
+  <React.Fragment>
+   
+    <Button variant="contained"  style={{marginTop:20}}
+      onClick={handleClick({
+        vertical: 'top',
+        horizontal: 'right',
+      })}
+    >
+    UPDATE ACCOUNT
+    </Button>
+  </React.Fragment>
+);
+
+return (
+
+  
+    <Box sx={{ display: 'flex' }}>
+         
+ {/* <div style={{display:'flex',justifyContent:"right"}}> 
+    <Row>
+  <Col sm="12">
+  
+  <Button color="secondary">Frequently Asked Questions</Button>
+
+  </Col>
+
+</Row> */}
+
+      <CssBaseline />
+        <DrawerMenu/>
+      
+        <TableContainer sx={{marginTop:15}} component={Paper}>
         
-            <Row>
-                <Col sm="12">
-                <TableContainer component={Paper}>
-                <Row>
+        
+    
+        <Row>
             <Col sm="4">
           <Typography variant="h6" style={{marginLeft:20}}>Accounts</Typography>
           </Col>
@@ -221,7 +385,15 @@ const industryType = [
             </Search>
             </div>
         
-          
+
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}  anchorOrigin={{ vertical, horizontal }}   
+        key={vertical + horizontal}>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Update Account Kilowott Done
+          </Alert>
+        </Snackbar>
+        
+   
             <Button variant="contained" style={{backgroundColor:"#8433EE"}} startIcon={<AddBoxIcon/>}>
             NEW CHILD ACCOUNT</Button>
             &nbsp; &nbsp;
@@ -232,23 +404,14 @@ const industryType = [
             </Col>
             
             </Row>
-                
-        <Table sx={{ minWidth: 600 }} aria-label="customized table" >
-
-          
-
-          <TableHead>
-            <TableRow>
-            <TableCell padding="checkbox">
+        
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        
+        <TableHead>
+          <TableRow>
+          <TableCell padding="checkbox">
             <Checkbox
-              color="primary"
-              // indeterminate={numSelected > 0 && numSelected < rowCount}
-              // checked={rowCount > 0 && numSelected === rowCount}
-              // onChange={onSelectAllClick}
-              inputProps={{
-                'aria-label': 'select all desserts',
-              }}
-            />
+              color="primary"/>
           </TableCell>
               <TableCell>NAME</TableCell>
               <TableCell align="left">LEGAL NAME</TableCell>
@@ -258,21 +421,20 @@ const industryType = [
               <TableCell align="left">CURRENCY</TableCell>
               <TableCell align="left">CONTRACT RENEWAL</TableCell>
               <TableCell align="left">PARENT</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        {rows.map((row) => (
               <TableRow key={row.name}>
                   <TableCell padding="checkbox">
-                          <Checkbox
-                            color="primary"/>
+                          <Checkbox color="primary"/>
                         </TableCell>
                 <TableCell style={{width:140}} component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell style={{width:100}}  align="left">{row.legalName}</TableCell>
-                <TableCell style={{width:140}}  align="left">{row.businessName}</TableCell>
-                <TableCell style={{width:140}}  align="left">{row.businessType}</TableCell>
+                <TableCell style={{width:100}} align="left">{row.legalName}</TableCell>
+                <TableCell style={{width:140}} align="left">{row.businessName}</TableCell>
+                <TableCell style={{width:140}} align="left">{row.businessType}</TableCell>
                 <TableCell style={{width:150}} align="left">{row.industryType}</TableCell>
                 <TableCell style={{width:140}} align="left">{row.currency}</TableCell>
                 <TableCell style={{width:140}} align="left">{row.contractRenewal}</TableCell>
@@ -281,29 +443,21 @@ const industryType = [
                 <EditOutlinedIcon onClick={handleEditOpen} style={{fontSize:20,display:"block",marginTop:5,marginBottom:5}}/>
                 <DeleteOutlineOutlinedIcon style={{fontSize:20,display:"block"}}/>
                 </TableCell>
-
-              
-
-                {/* <TableCell style={{width:140}} align="left"> */}
-                {/* <Nav.Link href="/csexpand"><OpenInFullIcon style={{fontSize:20,display:"block"}}/></Nav.Link> */}
-                {/* <Nav.Link href="/csedit"><EditOutlinedIcon style={{fontSize:20,display:"block",marginTop:5,marginBottom:5}}/></Nav.Link> */}
-                
-                {/* <Nav.Link href="/csdelete"><DeleteOutlineOutlinedIcon style={{fontSize:20,display:"block"}}/></Nav.Link></TableCell> */}
-              </TableRow>
+                </TableRow>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-                </Col>
-            </Row>
+        </TableBody>
+      </Table>
+    </TableContainer>
 
-  {/* edit page */}
-  <Dialog
+    <Dialog
           fullScreen
           open={edit}
           onClose={handleEditClose}
           TransitionComponent={Transition}
         >
+       
+     
+
           <IconButton
                 edge="start"
                 color="inherit"
@@ -396,7 +550,10 @@ const industryType = [
                       />
                     </LocalizationProvider> */}
                               
-              <Button variant="contained" style={{marginTop:20}}>UPDATE ACCOUNT</Button>
+              {/* <Button  onClick={UpdateUser} style={{marginTop:20}}></Button> */}
+          {buttons}
+     
+            
               </Paper>
       </TabPanel> 
  
@@ -428,11 +585,13 @@ const industryType = [
                             <InputLabel style={{marginTop:4}}>Business Type</InputLabel>
                             <Input value="Website Design"/>
                           </FormControl>
+                          {buttons}
                           </Paper>
                       </TabPanel> 
 
-                       {/* pament tab */}
+                       {/* payment tab */}
             <TabPanel value={value} index={2}>
+            <Paper elevation={4} style={{height:430,width:'100%',paddingLeft:20,paddingTop:20,paddingRight:20}}>
             <FormControl disabled fullWidth  variant="standard">
                   <InputLabel>Account Name</InputLabel>
                   <Input value="Kilowott Child Company Again"/>
@@ -457,15 +616,14 @@ const industryType = [
                   <InputLabel style={{marginTop:4}}>Business Type</InputLabel>
                   <Input value="Website Design"/>
                 </FormControl>
-           
-            </TabPanel>
-    
-     
+                {buttons}
 </Paper>
-
+</TabPanel>
+</Paper>
 </Dialog> 
 
-        </div>
-    
-    );
-  }
+
+    </Box>
+   
+  );
+}
