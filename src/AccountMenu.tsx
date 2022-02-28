@@ -19,21 +19,16 @@
   import AddIcon from '@material-ui/icons/Add';
   import AddBoxIcon from '@material-ui/icons/AddBox';
   import { blue } from '@mui/material/colors';
-
   import Dialog from '@mui/material/Dialog';
-  import ListItemText from '@mui/material/ListItemText';
-  import ListItem from '@mui/material/ListItem';
-  import List from '@mui/material/List';
-  import Divider from '@mui/material/Divider';
   import IconButton from '@mui/material/IconButton';
   import CloseIcon from '@mui/icons-material/Close';
   import Slide from '@mui/material/Slide';
   import { TransitionProps } from '@mui/material/transitions';
   import { Box } from '@material-ui/core';
-
-import { NavLink } from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
-import { getUsersById } from './AxiosApi/api';
+  // import AdapterDateFns from '@mui/lab/AdapterDateFns';
+  // import LocalizationProvider from '@mui/lab/LocalizationProvider';
+  // import DatePicker from '@mui/lab/DatePicker';
+// import { getUsersById } from './AxiosApi/api';
 
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -180,12 +175,12 @@ const industryType = [
   };
 
   // edit backened
-  const [person,setPerson] = React.useState([])
-  const getUserName=async()=>{
-    const response = await getUsersById();    
-    console.log(response.data);    
-    setUsers(response.data); 
-  }
+  // const [person,setPerson] = React.useState([])
+  // const getUserName=async()=>{
+  //   const response = await getUsersById();    
+  //   console.log(response.data);    
+  //   setUsers(response.data); 
+  // }
 
 
 
@@ -198,12 +193,14 @@ const industryType = [
   };
 
   //industry select
-  const[industry, setIndustry] = React.useState('tra');
+  const[industry, setIndustry] = React.useState('');
 
   const handleIndustryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIndustry(event.target.value);
   };
 
+  //date
+  const [field, setField] = React.useState<Date | null>(null);
 
     return (
         <div style={{display:"flex",justifyContent:"right"}}>
@@ -397,10 +394,22 @@ const industryType = [
                 </TextField>
 
 
-                <FormControl fullWidth variant="standard">
+                {/* <FormControl fullWidth variant="standard">
                   <InputLabel style={{marginTop:4}}>Year of Association</InputLabel>
                   <Input  value="31/01/2022"/>
-                </FormControl>
+                </FormControl> */}
+
+                {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        label="Basic example"
+                        value={value}
+                        onChange={(newValue) => {
+                          setField(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider> */}
+                              
               <Button variant="contained" style={{marginTop:20}}>UPDATE ACCOUNT</Button>
               </Paper>
       </TabPanel> 
