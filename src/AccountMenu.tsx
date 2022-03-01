@@ -30,58 +30,6 @@ import DrawerMenu from './App/Components/SideNavigation/DrawerMenu';
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 
 
-const drawerWidth = 240;
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }),
-}));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
-
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -130,21 +78,54 @@ function createData(
   businessName: string,
   businessType: string,
   industryType: string,
-  currency:string,
-  contractRenewal:string,
-  parent:string,
-
+  currency: string,
+  contractRenewal: string,
+  parent: string
 ) {
-  return { name,legalName,businessName,businessType,industryType,currency,contractRenewal,parent}
+  return {
+    name,
+    legalName,
+    businessName,
+    businessType,
+    industryType,
+    currency,
+    contractRenewal,
+    parent,
+  };
 }
 
 const rows = [
-  createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Website Design','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
-  createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Website Design','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
-  createData('Kilowott Child Company Again','Kilowott Agency','Kilowott Agency Pvt.Ltd.','Digital Marketing','Travel & Hospitality Europe','INR','20/02/2022 18:30:00',''),
-
+  createData(
+    "Kilowott Child Company Again",
+    "Kilowott Agency",
+    "Kilowott Agency Pvt.Ltd.",
+    "Website Design",
+    "Travel & Hospitality Europe",
+    "INR",
+    "20/02/2022 18:30:00",
+    ""
+  ),
+  createData(
+    "Kilowott Child Company Again",
+    "Kilowott Agency",
+    "Kilowott Agency Pvt.Ltd.",
+    "Website Design",
+    "Travel & Hospitality Europe",
+    "INR",
+    "20/02/2022 18:30:00",
+    ""
+  ),
+  createData(
+    "Kilowott Child Company Again",
+    "Kilowott Agency",
+    "Kilowott Agency Pvt.Ltd.",
+    "Digital Marketing",
+    "Travel & Hospitality Europe",
+    "INR",
+    "20/02/2022 18:30:00",
+    ""
+  ),
 ];
-
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -221,19 +202,7 @@ export interface State extends SnackbarOrigin {
 
 
 export default function AccountMenu() {
-  const theme = useTheme();
-  // const [drawer, setDrawer] = React.useState(false);
-
-  // const handleDrawerOpen = () => {
-  //   if(open==true){
-  //     setDrawer(false);
-  //   }
-  //   else{
-  //     setDrawer(true);
-  //   }
   
-  // };
-
 // edit function
 const [edit, setEdit] = React.useState(false);
 const handleEditOpen = () => {
@@ -242,48 +211,6 @@ const handleEditOpen = () => {
 
 const handleEditClose = () => {
   setEdit(false);
-};
-
-const [sale, setSale] = React.useState(false);
-
-const handleClickSale = () => {
-  setSale(!sale);
-};
-
-const [delivery, setDelivery] = React.useState(false);
-
-const handleClickDelivery = () => {
-  setDelivery(!delivery);
-};
-
-const [finance, setFinance] = React.useState(false);
-
-const handleClickFinance = () => {
-  setFinance(!finance);
-};
-
-const [analytic, setAnalytic] = React.useState(false);
-
-const handleClickAnalytic = () => {
-  setAnalytic(!analytic);
-};
-
-const [service, setService] = React.useState(false);
-
-const handleClickService = () => {
-  setService(!service);
-};
-
-const [associate, setAssociate] = React.useState(false);
-
-const handleClickAssociate = () => {
-  setAssociate(!associate);
-};
-
-const [customer, setCustomer] = React.useState(false);
-
-const handleClickCustomer = () => {
-  setCustomer(!customer);
 };
 
 // tab
@@ -300,15 +227,6 @@ const handleIndustryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   setIndustry(event.target.value);
 };
 
-const UpdateUser = async () =>{
-  // handleEditClose();
-  // handleClick({
-  //   vertical: 'top',
-  //   horizontal: 'right',
-  // });
-  
-
-}
 
 //snackbar
 const [state, setState] = React.useState<State>({
@@ -342,31 +260,17 @@ const buttons = (
 );
 
 return (
-
-  
     <Box sx={{ display: 'flex' }}>
-         
- {/* <div style={{display:'flex',justifyContent:"right"}}> 
-    <Row>
-  <Col sm="12">
-  
-  <Button color="secondary">Frequently Asked Questions</Button>
-
-  </Col>
-
-</Row> */}
-
-      <CssBaseline />
+        <CssBaseline />
         <DrawerMenu/>
       
         <TableContainer sx={{marginTop:15}} component={Paper}>
-        
-        
-    
-        <Row>
+          <Row>
             <Col sm="4">
-          <Typography variant="h6" style={{marginLeft:20}}>Accounts</Typography>
-          </Col>
+              <Typography variant="h6" style={{marginLeft:20}}>
+                Accounts
+              </Typography>
+            </Col>
       
         <Col sm="8">
           <div style={{display:"flex",justifyContent:"right"}}>
